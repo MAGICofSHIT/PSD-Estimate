@@ -20,28 +20,15 @@ nfft2 = length(signal2);
 nfft3 = length(signal3);
 
 %% 窗函数应用
- % 使用汉宁窗
-window1 = hann(nfft1);
-window2 = hann(nfft2);
-window3 = hann(nfft3);
-windowed_signal1 = signal1 .* window1;
-windowed_signal2 = signal2 .* window2;
-windowed_signal3 = signal3 .* window3;
-
-% 计算窗函数的能量校正因子
-window_power1 = sum(window1.^2) / length(window1);
-window_power2 = sum(window2.^2) / length(window2);
-window_power3 = sum(window3.^2) / length(window3);
+ % 使用窗函数
+window1 = blackman(nfft1);
+window2 = blackman(nfft2);
+window3 = blackman(nfft3);
 
 % 计算周期图法的功率谱密度
-[psd1, f1] = periodogram(windowed_signal1, [], nfft1, fs1, 'centered');
-[psd2, f2] = periodogram(windowed_signal2, [], nfft2, fs2, 'centered');
-[psd3, f3] = periodogram(windowed_signal3, [], nfft3, fs3, 'centered');
-
-% 校正窗函数的影响
-psd1 = psd1 / window_power1;
-psd2 = psd2 / window_power2;
-psd3 = psd3 / window_power3;
+[psd1, f1] = periodogram(signal1, window1, nfft1, fs1, 'centered');
+[psd2, f2] = periodogram(signal2, window2, nfft2, fs2, 'centered');
+[psd3, f3] = periodogram(signal3, window3, nfft3, fs3, 'centered');
 
 %% 绘制功率谱密度
 figure;
