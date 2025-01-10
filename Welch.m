@@ -15,8 +15,8 @@ fs2 = 30.72e6;
 fs3 = 8e6;
 
 % Welch法参数
-segment_length1 = 2048; % 每段的长度，可调整
-segment_length2 = 2048;
+segment_length1 = 1024; % 每段的长度，可调整
+segment_length2 = 1024;
 segment_length3 = 1024;
 overlap1 = floor(segment_length1 / 2); % 50% 重叠
 overlap2 = floor(segment_length2 / 2);
@@ -56,28 +56,32 @@ title('蓝牙信号功率谱密度 (Welch)');
 grid on;
 
 %% 带宽估计
-threshold = -9;
+% 门限设置
+threshold1 = -18;
+threshold2 = -9;
+threshold3 = -21;
 
-% DTMB信号带宽估计
-psd_dB1 = 10 * log10(psd1);
+psd_dB1 = 10*log10(psd1);
 peak_power1 = max(psd_dB1);
-bandwidth_indices1 = find(psd_dB1 > (peak_power1 + threshold));
+bandwidth_indices1 = find(psd_dB1 > (peak_power1 + threshold1));
 bandwidth_frequencies1 = f1(bandwidth_indices1);
+
+psd_dB2 = 10*log10(psd2);
+peak_power2 = max(psd_dB2);
+bandwidth_indices2 = find(psd_dB2 > (peak_power2 + threshold2));
+bandwidth_frequencies2 = f2(bandwidth_indices2);
+
+psd_dB3 = 10*log10(psd3);
+peak_power3 = max(psd_dB3);
+bandwidth_indices3 = find(psd_dB3 > (peak_power3 + threshold3));
+bandwidth_frequencies3 = f3(bandwidth_indices3);
+
+% 计算带宽
 estimated_bandwidth1 = max(bandwidth_frequencies1) - min(bandwidth_frequencies1);
 fprintf('DTMB数字电视地面广播信号估计带宽: %.2f MHz\n', estimated_bandwidth1 / 1e6);
 
-% 5G信号带宽估计
-psd_dB2 = 10 * log10(psd2);
-peak_power2 = max(psd_dB2);
-bandwidth_indices2 = find(psd_dB2 > (peak_power2 + threshold));
-bandwidth_frequencies2 = f2(bandwidth_indices2);
 estimated_bandwidth2 = max(bandwidth_frequencies2) - min(bandwidth_frequencies2);
-fprintf('5G广播PBCH信道的信号估计带宽: %.2f MHz\n', estimated_bandwidth2 / 1e6);
+fprintf('5G广播PBCH信道的信号SSB块信号估计带宽: %.2f MHz\n', estimated_bandwidth2 / 1e6);
 
-% 蓝牙信号带宽估计
-psd_dB3 = 10 * log10(psd3);
-peak_power3 = max(psd_dB3);
-bandwidth_indices3 = find(psd_dB3 > (peak_power3 + threshold));
-bandwidth_frequencies3 = f3(bandwidth_indices3);
 estimated_bandwidth3 = max(bandwidth_frequencies3) - min(bandwidth_frequencies3);
 fprintf('蓝牙信号估计带宽: %.2f MHz\n', estimated_bandwidth3 / 1e6);

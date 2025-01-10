@@ -57,21 +57,23 @@ grid on;
 
 %% 带宽估计
 % 门限设置
-threshold = -9;
+threshold1 = -18;
+threshold2 = -9;
+threshold3 = -21;
 
 psd_dB1 = 10*log10(psd1);
 peak_power1 = max(psd_dB1);
-bandwidth_indices1 = find(psd_dB1 > (peak_power1 + threshold));
+bandwidth_indices1 = find(psd_dB1 > (peak_power1 + threshold1));
 bandwidth_frequencies1 = f1(bandwidth_indices1);
 
 psd_dB2 = 10*log10(psd2);
 peak_power2 = max(psd_dB2);
-bandwidth_indices2 = find(psd_dB2 > (peak_power2 + threshold));
+bandwidth_indices2 = find(psd_dB2 > (peak_power2 + threshold2));
 bandwidth_frequencies2 = f2(bandwidth_indices2);
 
 psd_dB3 = 10*log10(psd3);
 peak_power3 = max(psd_dB3);
-bandwidth_indices3 = find(psd_dB3 > (peak_power3 + threshold));
+bandwidth_indices3 = find(psd_dB3 > (peak_power3 + threshold3));
 bandwidth_frequencies3 = f3(bandwidth_indices3);
 
 % 计算带宽
