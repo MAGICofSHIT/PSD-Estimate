@@ -14,6 +14,38 @@ fs1 = 25e6;
 fs2 = 30.72e6;
 fs3 = 8e6;
 
+% STFT窗口大小和步长
+window_size = 1024;
+overlap = 512;
+
+%% 瀑布图绘制
+% DTMB信号瀑布图
+figure;
+spectrogram(signal1, window_size, overlap, [], fs1, 'yaxis');
+title('DTMB数字电视地面广播信号瀑布图');
+ylabel('频率 (MHz)');
+xlabel('时间 (s)');
+colormap jet;
+colorbar;
+
+% NR信号瀑布图
+figure;
+spectrogram(signal2, window_size, overlap, [], fs2, 'yaxis');
+title('5G广播PBCH信道的信号SSB块信号瀑布图');
+ylabel('频率 (MHz)');
+xlabel('时间 (s)');
+colormap jet;
+colorbar;
+
+% 蓝牙信号瀑布图
+figure;
+spectrogram(signal3, window_size, overlap, [], fs3, 'yaxis');
+title('蓝牙信号瀑布图');
+ylabel('频率 (MHz)');
+xlabel('时间 (s)');
+colormap jet;
+colorbar;
+
 % 使用信号长度的下一个2的幂进行FFT
 nfft1 = length(signal1);
 nfft2 = length(signal2);
